@@ -1,0 +1,315 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>PhoneGap Internals for Android Developers</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
+        <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <div class="reveal">
+    <div class="slides">
+    <section data-state"whiteout">
+        <img src="img/Phonegap-Logo.png" />
+        <h2>PhoneGap/Cordova for Android Developers </h2>
+        <h3> Joe Bowser <br />
+        <a href="mailto:jbowser@adobe.com">jbowser@adobe.com</a><br />
+        <a href="twitter.com/infil00p"> @infil00p</a></h3>
+    </section>
+
+    <section>
+        <section>
+            <h2>About PhoneGap/Cordova</h2>
+            <img src="img/cordova_logo_white.png" />
+        </section>
+        <section>
+            <h2>About PhoneGap</h2>
+            <ul>
+                <li>Started in August 2008</li>
+                <li>First commit on Android Implementation on October 2008</li>
+                <li>Released first code on October 22, 2008 - Same day as the T-Mobile G1</li>
+                <li>Currently supports devices from Android 2.1 to Android 4.1.1+</li>
+                <li>For this talk Apache Cordova == PhoneGap</li>
+            </ul>
+        </section>
+    </section>
+    <section>
+        <h2>What PhoneGap does</h2>
+        <ul>
+            <li>Hybrid application framework that allows developers to use HTML, CSS and Javascript to create applications</li>
+            <li>Good for rapid prototyping</li>
+            <li>Lowers the barrier of entry for developers to write apps</li>
+            <li>This is another tool in the toolbox!</li>
+        </ul>
+    </section> 
+    <section class=slide>
+        <section>
+            <h2>WHY?</h2>
+            <img src="img/iphone.jpg"/>
+        </section>
+        <section>
+            <h2>History</h2>
+            <ul>
+                <li>In 2008, the iPhone reigned supreme</li>
+                <li>People were already adopting PhoneGap for iOS and didn't care about Android</li>
+                <li>To attract developers to Android, porting had to be easy</li>
+                <li>Created the Android port because Android vs iOS is the PC vs Mac war</li>
+            </ul>
+        </section>
+    </section>
+    <section class=slide>
+        <h2>The other reason</h2>
+        <ul>
+            <li>Android Layout is TERRIBLE - Not Designer Friendly</li>
+            <li>Seriously, different tricks for different layouts?</li>
+            <li>Not interested in re-inventing the wheel over and over again</li>
+            <li>On Early Versions of Android, the Web looked better than Native</li>
+        </ul>
+    </section>
+    <section>
+        <section>
+            <h2>So, When to use Cordova?</h2>
+            <ul>
+                <li>Tight timeframe and need to deploy on iOS, Android and Blackberry</li>
+                <li>Common codebase for business logic and UI</li>
+                <li>Easier to implement certain things in JS instead of in Java</li>
+                <li>Allows developers to use existing skills with Mobile Dev</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Apps that use Cordova</h2>
+            <img src="img/untapped.png" />
+            <img src="img/wikipedia.png" />
+        </section>
+    </section>
+    <section class="slide">
+        <h2>How does Apache Cordova work?</h2>
+        <ul>
+            <li>CordovaWebView is a customized WebView</li>
+            <li>Device features can be accessed through a number of bridges</li>
+            <li>Plugins exist on a plugin interface</li>
+            <li>Plugins are written in Java</li>
+            <li>Most projects extend a pre-written activity called DroidGap</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>DroidGap</h2>
+        <img src="img/DroidGap.png" style="position: absolute; left: 20px;"/>
+        <ul style="position: absolute; left: 360px" >
+            <li>Horrible Name!</li>
+            <li>This is the activity that everyone inherits</li>
+            <li>This gives users a default layout of just the WebView</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <section>
+            <h3>CordovaWebView</h3>
+            <img src="img/cordova_web_view_demo.png" style="position: absolute; left: 0px;" >
+            <ul style="position: absolute; left:400px;" >
+                <li>Initially was just a WebView</li>
+                <li>Developers can use Cordova as a component</li>
+                <li>Inherits all the problems with the Android WebView</li>
+            </ul>
+        </section>
+        <section>
+            <h1>Thar be code!</h1>
+        </section>
+    </section>
+    <section class="slide">
+        <h2>Plugins</h2>
+        <ul>
+            <li>Plugins were initially just objects</li>
+            <li>This was tossed because of a desire to use the exec pattern</li>
+            <li>Plugins take in a series of commands, run methods and return the result back to JS</li>
+            <li>Plugins are written in Java</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <section>
+            <h2>The Bridge</h2>
+            <img src="img/bridges.jpg" />
+        </section>
+        <section>
+            <h2>The Bridge</h2>
+            <ul>
+                <li>Plugins were initially just objects</li>
+                <li>This was tossed because of a desire to use the exec pattern</li>
+                <li>Plugins take in a series of commands, run methods and return the result back to JS</li>
+                <li>Plugins are written in Java</li>
+                <li>We have numerous bridge implementations</li>
+            </ul>
+        </section>
+        <section class="slide">
+        <h2>Bridge: JS_OBJECT</h2>
+        <ul>
+            <li>Plugins were initially just objects</li>
+            <li>We used webView.addJavascriptInterface()</li>
+            <li>This has always been prone to bugs
+                <ul>
+                    <li>Android 1.5 - Foo.bar()</li>
+                    <li>Android 2.3.4 emulator - Crashes</li>
+                </ul>
+            </li>
+            <li>This is synchronous - Used primarily for JS to Java</li>
+        </ul>
+        </section>
+        <section class="slide">
+            <h2>Bridge: PROMPT</h2>
+            <ul>
+                <li>This doesn't crash the emulator</li>
+                <li>This is very slow</li>
+                <li>This is a criticized version of the bridge</li>
+                <li>This is used for JS to Java</li>
+            </ul>
+        </section>
+        <section class="slide">
+            <h2>Bridge: Polling</h2>
+            <ul>
+                <li>This is inefficient</li>
+                <li>Check the result from PROMPT or JS_OBJECT on the Interval</li>
+                <li>The old fallback method</li>
+            </ul>
+        </section>
+        <section class="slide">
+            <h2>Bridge: HANGING_GET</h2>
+            <ul>
+                <li>This just sucks</li>
+                <li>Set up a Callback Server, and use HANGING_GET to get the results Async</li>
+                <li>This is faster than polling</li>
+                <li>Breaks in Android 4.x</li>
+                <li>Takes up too much memory</li>
+                <li>Deleted in Apache Cordova 2.2</li>
+            </ul>
+        </section>
+        <section class="slide">
+            <h2>Bridge: LOAD_URL</h2>
+            <ul>
+                <li>WebView.loadUrl("javascript:foo()") calls foo.</li>
+                <li>This uses the WebKit method stringByEvaluatingJavascriptString</li>
+                <li>This is fast</li>
+                <li>This breaks input methods.  No typing on a screen with live Accelerometer data</li>
+            </ul>
+        </section>
+        <section class="slide">
+            <h2>Bridge: ONLINE_EVENT</h2>
+            <ul>
+                <li>This is fast</li>
+                <li>Faster than WebView.loadUrl</li>
+                <li>This doesn't break Input</li>
+                <li>This is our current default Java to JS bridge</li>
+            </ul>
+        </section>
+        <section class="slide">
+            <h2>Bridge: PRIVATE_API</h2>
+            <ul>
+                <li>This is super fast</li>
+                <li>This isn't supported officially</li>
+                <li>This only works on Android 3.2+</li>
+                <li>This reflects into WebViewCore and talks to WebKit directly</li>
+                <li>This may break in the future</li>
+            </ul>
+        </section>
+      </section>
+    <section class="slide">
+        <h2>PluginManager and Plugins</h2>
+        <ul>
+            <li>Plugins were initially just objects</li>
+            <li>This was tossed because of a desire to use the exec pattern</li>
+            <li>Plugins take in a series of commands, run methods and return the result back to JS</li>
+            <li>Plugins are written in Java</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>Plugin Developers are Android Devs</h2>
+        <ul>
+            <li>Basic Plugin API</li>
+            <li>Plugins are now CordovaPlugin</li>
+            <li>Plugins must have an execute method</li>
+            <li>Plugins can handle activity results</li>
+            <li>Plugins can create intents</li>
+        </ul>
+    </section>
+    <section class="slide">
+        <h2>The whole picture</h2>
+        <ul>
+            <li>WebView runs the app</li>
+            <li>Plugins run on the plugin manager</li>
+            <li>The bridge is used to communicate</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Opportunties</h2>
+        <ul>
+            <li>Contribute to Apache Cordova
+                <ul>
+                    <li>Work with Adobe, IBM, Google, RIM and others</li>
+                    <li>Become an Apache Committer</li>
+                </ul>
+            </li>
+            <li>Write kick-ass plugins</li>
+            <li>Use PhoneGap as another tool in the toolbox</li>
+        </ul>
+    </section>
+    <section class=slide>
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="http://docs.phonegap.com">http://docs.phonegap.com</a> - Apache Cordova Documentation</li>
+            <li><a href="http://simonmacdonald.blogspot.com/2012/08/so-you-wanna-write-phonegap-200-android.html">http://bit.ly/QrOyVr</a> - Simon Macdonald's Guide to Android Plugins (Cordova Android contributor)</a></li>
+            <li><a href="http://github.com/infil00p/oscon_demo">https://github.com/infil00p/CordovaActionView</a> - Example of CordovaWebView</li>
+            <li><a href="https://git-wip-us.apache.org/repos/asf?p=incubator-cordova-android.git">https://git-wip-us.apache.org/repos/asf?p=incubator-cordova-android.git</a> - The Cordova Source</li>
+            <li><a href="http://incubator.apache.org/cordova/">http://incubator.apache.org/cordova/</a> - The project site (will be changing soon)</li>
+        </ul>
+    </section>
+
+        </div>
+    </div>
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+            
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/zoom-js/zoom.js', condition: function() { return !!document.body.classList; } },
+                    { src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+                    { src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+                ]
+            });
+            
+        </script>
+
+</body>
+</html>
