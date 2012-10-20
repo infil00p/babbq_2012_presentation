@@ -30,10 +30,12 @@
     <div class="slides">
     <section data-state"whiteout">
         <img src="img/Phonegap-Logo.png" />
-        <h2>PhoneGap/Cordova for Android Developers </h2>
-        <h3> Joe Bowser <br />
+        <br />
+        PhoneGap/Cordova for Android Developers<br />
+        Joe Bowser <br />
         <a href="mailto:jbowser@adobe.com">jbowser@adobe.com</a><br />
-        <a href="twitter.com/infil00p"> @infil00p</a></h3>
+        <a href="https://github.com/infil00p">https://github.com/infil00p</a><br />
+        <a href="twitter.com/infil00p"> @infil00p</a>
     </section>
 
     <section>
@@ -49,6 +51,15 @@
                 <li>Released first code on October 22, 2008 - Same day as the T-Mobile G1</li>
                 <li>Currently supports devices from Android 2.1 to Android 4.1.1+</li>
                 <li>For this talk Apache Cordova == PhoneGap</li>
+            </ul>
+        </section>
+        <section>
+            <h2>WTF Adobe???</h2>
+            <img src="img/AdobeSystems.png" />
+            <ul>
+                <li>PhoneGap was started by Nitobi</li>
+                <li>Nitobi was acquired by Adobe in October 2011</li>
+                <li>Adobe, IBM and others donated PhoneGap to the Apache Software Foundation</li>
             </ul>
         </section>
     </section>
@@ -72,7 +83,8 @@
                 <li>In 2008, the iPhone reigned supreme</li>
                 <li>People were already adopting PhoneGap for iOS and didn't care about Android</li>
                 <li>To attract developers to Android, porting had to be easy</li>
-                <li>Created the Android port because Android vs iOS is the PC vs Mac war</li>
+                <li>Android already had WebView and an API</li>
+                <li>PhoneGap 0.1 for Android - October 2008</li>
             </ul>
         </section>
     </section>
@@ -80,7 +92,7 @@
         <h2>The other reason</h2>
         <ul>
             <li>Android Layout is TERRIBLE - Not Designer Friendly</li>
-            <li>Seriously, different tricks for different layouts?</li>
+            <li>(This is getting better, styles and themes help)</li>
             <li>Not interested in re-inventing the wheel over and over again</li>
             <li>On Early Versions of Android, the Web looked better than Native</li>
         </ul>
@@ -132,6 +144,17 @@
         </section>
         <section>
             <h1>Thar be code!</h1>
+            <pre>
+&lt;FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"&gt;
+        &lt;org.apache.cordova.CordovaWebView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id = "@+id/mainView"/&gt;
+&lt;/FrameLayout&gt;
+            </pre>
         </section>
     </section>
     <section class="slide">
